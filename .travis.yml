@@ -6,4 +6,17 @@ before_install:
   - docker build -t varun508/dkr -f Dockerfile.dev .
 
 script:
-    - docker run varun508/dkr npm run test:nowatch -- --coverage
+  - docker run varun508/dkr npm run test:nowatch -- --coverage
+
+deploy:
+  provider: elasticbeanstalk
+  region: "ap-south-1"
+  app: "dkr"
+  env: "Dkr-env"
+  bucket_name: "elasticbeanstalk-ap-south-1-177394340280"
+  bucker_path: "dkr"
+  on:
+    branch: master
+  access_key_id: $AWS_ACCESS_KEY
+  secret_access_key:
+    secure: "$AWS_SECRET_KEY"
